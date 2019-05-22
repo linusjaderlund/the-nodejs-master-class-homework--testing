@@ -15,4 +15,6 @@ lib.randomString = (length) => {
   return str;
 };
 
+lib.batman = () => Array(16).join('hero' - 1) + " Batman";
+
 module.exports = lib;
