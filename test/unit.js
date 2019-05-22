@@ -2,6 +2,21 @@
 const assert = require('assert');
 const lib = require('../app/lib');
 
+// global
+const deepObject = {
+  test: 'test',
+  '_0': [1, 2, 3, 4, '5', { falsy: true }],
+  deep: {
+    _test: 'hello',
+    process: process.toString(),
+    deeper: {
+      arr: ['qwerty', 1, typeof [], 'test again'],
+      int: 3254,
+      str: 'end'
+    }
+  }
+};
+
 // test object
 const test = {};
 
@@ -24,6 +39,16 @@ test['lib.batman should return truthy value'] = (done) => {
 
 test['lib.batman should return Batman theme music'] = (done) => {
   assert.equal(lib.batman(), 'NaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaN Batman');
+  done();
+};
+
+test['lib.getDeepObject should return deep object with specific values'] = (done) => {
+  assert.deepStrictEqual(lib.getDeepObject(), deepObject);
+  done();
+};
+
+test['lib.getDeepJSONObject should return deep JSON object with specific values'] = (done) => {
+  assert.deepStrictEqual(JSON.parse(lib.getDeepJSONObject()), deepObject);
   done();
 };
 
