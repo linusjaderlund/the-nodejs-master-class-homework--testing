@@ -52,4 +52,9 @@ test['lib.getDeepJSONObject should return deep JSON object with specific values'
   done();
 };
 
+test['lib.getDeepObject should return deep object with specific values and without property foo'] = (done) => {
+  assert.notDeepStrictEqual(lib.getDeepObject(), { ...deepObject, foo: 'bar' });
+  done();
+};
+
 module.exports = test;
