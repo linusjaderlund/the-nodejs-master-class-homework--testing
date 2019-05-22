@@ -1,13 +1,14 @@
 // deps/tests
 const unit = require('./unit');
+const integration = require('./integration');
 
 // tests
-const test = {unit};
+const test = {unit, integration};
 
 // test runner
 const tester = {};
 
-tester.report = (total, errors) => {
+tester.reportAndExit = (total, errors) => {
   const lineLength = 40;
   
   console.log('');
@@ -24,6 +25,8 @@ tester.report = (total, errors) => {
     console.log('-'.repeat(lineLength));
   });
   console.log('\x1b[33m%s\x1b[0m', 'REPORT END -');
+
+  process.exit(0);
 };
 
 tester.count = () => {
@@ -41,24 +44,25 @@ tester.run = () => {
   const total = tester.count();
   const errors = [];
 
+  console.log('\x1b[33m%s\x1b[0m', `-  STARTING TEST RUNNER`)
+
   for (const category of Object.keys(test)) {
-    console.log('\x1b[33m%s\x1b[0m', `- TESTS FOR CATEGORY ${category.toUpperCase()}:`)
     for (const testName of Object.keys(test[category])) {
       (function() {
         try {
           test[category][testName](() => {
-            console.log('\x1b[32m%s\x1b[0m', `-- ${testName}`);
+            console.log('\x1b[32m%s\x1b[0m', `-- [${category.toLowerCase()} test] ${testName}`);
             
             if (++count === total) {
-              tester.report(total, errors);
+              tester.reportAndExit(total, errors);
             }
           });
         } catch (error) {
-          console.log('\x1b[31m%s\x1b[0m', `-- ${testName}`);
+          console.log('\x1b[31m%s\x1b[0m', `-- [${category.toLowerCase()} test] ${testName}`);
           errors.push({testName, error});
           
           if (++count === total) {
-            tester.report(total, errors);
+            tester.reportAndExit(total, errors);
           }
         }
       }());

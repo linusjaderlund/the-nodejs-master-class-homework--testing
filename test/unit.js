@@ -17,4 +17,14 @@ test['lib.randomString should throw error if length is undefined'] = (done) => {
   done();
 };
 
+test['lib.batman should return truthy value'] = (done) => {
+  assert.ok(lib.batman());
+  done();
+};
+
+test['lib.batman should return Batman theme music'] = (done) => {
+  assert.equal(lib.batman(), 'NaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaN Batman');
+  done();
+};
+
 module.exports = test;
